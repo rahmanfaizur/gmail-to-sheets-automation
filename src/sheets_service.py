@@ -5,9 +5,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from config import CREDENTIALS_PATH, TOKEN_PATH, SCOPES
 
-def get_gmail_service():
-    """Shows basic usage of the Gmail API.
-    Returns an authenticated Gmail service object.
+def get_sheets_service():
+    """Shows basic usage of the Sheets API.
+    Returns an authenticated Sheets service object.
     """
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
@@ -29,23 +29,5 @@ def get_gmail_service():
         with open(TOKEN_PATH, 'w') as token:
             token.write(creds.to_json())
 
-    service = build('gmail', 'v1', credentials=creds)
+    service = build('sheets', 'v4', credentials=creds)
     return service
-
-def fetch_unread_emails(service):
-    """
-    Fetches unread emails from the inbox.
-    Returns a list of message objects (containing IDs).
-    """
-    try:
-        results = service.users().messages().list(
-            userId='me',
-            q='is:unread in:inbox'
-        ).execute()
-        
-        messages = results.get('messages', [])
-        return messages
-        
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return []
