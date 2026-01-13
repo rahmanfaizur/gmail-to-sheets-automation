@@ -82,12 +82,14 @@ def main():
         
         if result:
             processed_count += 1
-            message_ids_to_mark.append(msg['id'])
+            # Mark as read immediately to avoid re-processing if script crashes/stops
+            print(f"   ✅ Marking as read...")
+            mark_as_read(gmail_service, [msg['id']])
 
-    # 6. Mark as Read
-    if message_ids_to_mark:
-        print("✅ Marking processed emails as read...")
-        mark_as_read(gmail_service, message_ids_to_mark)
+    # 6. Mark as Read (Done inside loop now)
+    # if message_ids_to_mark:
+    #    print("✅ Marking processed emails as read...")
+    #    mark_as_read(gmail_service, message_ids_to_mark)
 
     # 7. Save State
     if messages:
