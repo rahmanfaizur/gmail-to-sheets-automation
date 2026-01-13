@@ -15,4 +15,4 @@ SCOPES = [
 ]
 
 # Spreadsheet ID (will be needed later, placeholder for now)
-# SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'
+SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'

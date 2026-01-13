@@ -31,3 +31,25 @@ def get_sheets_service():
 
     service = build('sheets', 'v4', credentials=creds)
     return service
+
+def append_to_sheet(service, spreadsheet_id, values):
+    """
+    Appends a row of values to the spreadsheet.
+    values: list of strings [From, Subject, Date, Content]
+    """
+    try:
+        body = {
+            'values': [values]
+        }
+        result = service.spreadsheets().values().append(
+            spreadsheetId=spreadsheet_id,
+            range='Sheet1!A:D',
+            valueInputOption='RAW',
+            body=body
+        ).execute()
+        
+        print(f"{result.get('updates').get('updatedCells')} cells appended.")
+        return result
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None

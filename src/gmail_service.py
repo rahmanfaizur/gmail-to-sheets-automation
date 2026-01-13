@@ -49,3 +49,20 @@ def fetch_unread_emails(service):
     except Exception as e:
         print(f"An error occurred: {e}")
         return []
+
+def mark_as_read(service, message_ids):
+    """Marks a list of emails as read."""
+    if not message_ids:
+        return
+    
+    try:
+        service.users().messages().batchModify(
+            userId='me',
+            body={
+                'ids': message_ids,
+                'removeLabelIds': ['UNREAD']
+            }
+        ).execute()
+        print(f"Marked {len(message_ids)} emails as read.")
+    except Exception as e:
+        print(f"Error marking emails as read: {e}")
